@@ -8,7 +8,7 @@ def getReq():
 def delReq():
     animal_id = request.args.get('id', type=int)
     if animal_id is None:
-        return jsonify({"error": "Index out of bounds!"}), 400
+        return jsonify({"error": "Id is missing!"}), 400
     for animal in arrOfAnimals:
             if animal['id'] == animal_id:
                 arrOfAnimals.remove(animal)
