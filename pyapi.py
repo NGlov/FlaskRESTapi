@@ -6,14 +6,15 @@ def getReq():
         return jsonify(arrOfAnimals), 200 #convert to json and return http 200 success code "http://127.0.0.1:5000/get_animals"
 @app.route("/del_animals", methods=['DELETE'])
 def delReq():
-    index = request.args.get('index', type=int)
-    if index is None:
-        return jsonify({"error": "Index parameter is missing"}), 400
-    if 0 <= index < len(arrOfAnimals):
-        removed_animal = arrOfAnimals.pop(index)
-        return jsonify(removed_animal), 200
+    animal_id = request.args.get('id', type=int)
+    if animal_id is None:
+        return jsonify({"error": "Index out of bounds!"}), 400
+    for animal in arrOfAnimals:
+            if animal['id'] == animal_id:
+                arrOfAnimals.remove(animal)
+                return jsonify(animal)
     else:
-        return jsonify({"error": "This animal does not exist within the list!"}), 4
+        return jsonify({"error": "This animal does not exist within the list!"}), 404
 @app.route("/add_animals", methods=['POST'])
 def postReq():
     if request.method == "POST":
